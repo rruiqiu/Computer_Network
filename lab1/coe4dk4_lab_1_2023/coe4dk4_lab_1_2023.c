@@ -25,17 +25,17 @@
 
 #include <stdio.h>
 #include "simlib.h"
-
+#include <time.h>
 /*******************************************************************************/
 
 /*
  * Simulation Parameters
  */
 
-#define RANDOM_SEED 5259140
+#define RANDOM_SEED 400318681
 #define NUMBER_TO_SERVE 50e6
 
-#define SERVICE_TIME 1
+#define SERVICE_TIME 5
 #define ARRIVAL_RATE 0.1
 
 #define BLIP_RATE 10000
@@ -53,6 +53,16 @@
 
 int main()
 {
+  int start = 0;
+  int end = 10;
+  int seed = RANDOM_SEED;
+  //random seed
+  // srand(seed);
+  srand(time(NULL));
+  double var = 1.1;
+  // double random_arrival_rate = (var * (double)(rand())/RAND_MAX);
+
+  double random_arrival_rate = 0.08;
   double clock = 0; /* Clock keeps track of simulation time. */
 
   /* System state variables. */
@@ -73,71 +83,59 @@ int main()
 
   /* Process customers until we are finished. */
   while (total_served < NUMBER_TO_SERVE) {
+      /* Test if the next event is a customer arrival or departure. */
+    if(number_in_system == 0 || next_arrival_time < next_departure_time) {
+      /*
+        * A new arrival is occurring.
+        */
+      clock = next_arrival_time;
+      next_arrival_time = clock + exponential_generator((double) 1/random_arrival_rate);
+      /* Update our statistics. */
+      integral_of_n += number_in_system * (clock - last_event_time);
+      last_event_time = clock;
+      number_in_system++;
+      total_arrived++;
+      /* If this customer has arrived to an empty system, start its
+    service right away. */
+      if(number_in_system == 1) next_departure_time = clock + SERVICE_TIME;
+    } else {
+      /*
+        * A customer departure is occuring. 
+        */
+      clock = next_departure_time;
+      /* Update our statistics. */
+      integral_of_n += number_in_system * (clock - last_event_time);
+      last_event_time = clock;
+      number_in_system--;
+      total_served++;
+      total_busy_time += SERVICE_TIME;
+      /* 
+        * If there are other customers waiting, start one in service
+        * right away.
+        */
 
-    /* Test if the next event is a customer arrival or departure. */
-   if(number_in_system == 0 || next_arrival_time < next_departure_time) {
+      if(number_in_system > 0) next_departure_time = clock + SERVICE_TIME;
+      /* 
+        * Every so often, print an activity message to show we are active. 
+        */
 
-     /*
-      * A new arrival is occurring.
-      */
-
-     clock = next_arrival_time;
-     next_arrival_time = clock + exponential_generator((double) 1/ARRIVAL_RATE);
-
-     /* Update our statistics. */
-     integral_of_n += number_in_system * (clock - last_event_time);
-     last_event_time = clock;
-
-     number_in_system++;
-     total_arrived++;
-
-     /* If this customer has arrived to an empty system, start its
-	service right away. */
-     if(number_in_system == 1) next_departure_time = clock + SERVICE_TIME;
-
-   } else {
-
-     /*
-      * A customer departure is occuring. 
-      */
-
-     clock = next_departure_time;
-
-     /* Update our statistics. */
-     integral_of_n += number_in_system * (clock - last_event_time);
-     last_event_time = clock;
-
-     number_in_system--;
-     total_served++;
-     total_busy_time += SERVICE_TIME;
-
-     /* 
-      * If there are other customers waiting, start one in service
-      * right away.
-      */
-
-     if(number_in_system > 0) next_departure_time = clock + SERVICE_TIME;
-
-     /* 
-      * Every so often, print an activity message to show we are active. 
-      */
-
-     if (total_served % BLIP_RATE == 0)
-       printf("Customers served = %ld (Total arrived = %ld)\r",
-	      total_served, total_arrived);
-   }
-
+      if (total_served % BLIP_RATE == 0){
+        printf("Customers served = %ld (Total arrived = %ld)\r",total_served, total_arrived);
+      }
+        
+    }
   }
-
   /* Output final results. */
-  printf("\nUtilization = %f\n", total_busy_time/clock);
+  printf("\nArrival rate is: %f\n",random_arrival_rate);
+  printf("Utilization = %f\n", total_busy_time/clock);
   printf("Fraction served = %f\n", (double) total_served/total_arrived);
   printf("Mean number in system = %f\n", integral_of_n/clock);
   printf("Mean delay = %f\n", integral_of_n/total_served);
 
+
   /* Halt the program before exiting. */
-  printf("Hit Enter to finish ... \n");
-  getchar(); 
+  // printf("Hit Enter to finish ... \n");
+  // getchar(); 
 
   return 0;
 
