@@ -33,7 +33,7 @@
  */
 
 #define RANDOM_SEED 400318681
-#define NUMBER_TO_SERVE 50e6
+#define NUMBER_TO_SERVE 300000
 
 #define SERVICE_TIME 5
 #define ARRIVAL_RATE 0.1
@@ -58,11 +58,11 @@ int main()
   int seed = RANDOM_SEED;
   //random seed
   // srand(seed);
-  srand(time(NULL));
-  double var = 1.1;
+  // srand(time(NULL));
+  // double var = 1.1;
   // double random_arrival_rate = (var * (double)(rand())/RAND_MAX);
 
-  double random_arrival_rate = 0.08;
+  double random_arrival_rate = 0.15;
   double clock = 0; /* Clock keeps track of simulation time. */
 
   /* System state variables. */
