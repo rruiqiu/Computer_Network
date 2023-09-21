@@ -33,10 +33,10 @@
  */
 
 #define RANDOM_SEED 400318681
-#define NUMBER_TO_SERVE 300000
+#define NUMBER_TO_SERVE 50e6
 
-#define SERVICE_TIME 5
-#define ARRIVAL_RATE 0.1
+#define SERVICE_TIME 20
+#define ARRIVAL_RATE 0.005
 
 #define BLIP_RATE 10000
 
@@ -53,16 +53,24 @@
 
 int main()
 {
+
+
+  /* Set the seed of the random number generator. */
+  random_generator_initialize(RANDOM_SEED);
+
+  double random_arrival_rate = 0.037;
+  // for(int i=0; i<10;i++){
+    // random_arrival_rate += 0.005;
   int start = 0;
   int end = 10;
-  int seed = RANDOM_SEED;
+  // int seed = RANDOM_SEED;
   //random seed
   // srand(seed);
   // srand(time(NULL));
   // double var = 1.1;
   // double random_arrival_rate = (var * (double)(rand())/RAND_MAX);
-
-  double random_arrival_rate = 0.15;
+    
+  
   double clock = 0; /* Clock keeps track of simulation time. */
 
   /* System state variables. */
@@ -78,8 +86,8 @@ int main()
   double integral_of_n = 0;
   double last_event_time = 0;
 
-  /* Set the seed of the random number generator. */
-  random_generator_initialize(RANDOM_SEED);
+
+
 
   /* Process customers until we are finished. */
   while (total_served < NUMBER_TO_SERVE) {
@@ -131,6 +139,8 @@ int main()
   printf("Fraction served = %f\n", (double) total_served/total_arrived);
   printf("Mean number in system = %f\n", integral_of_n/clock);
   printf("Mean delay = %f\n", integral_of_n/total_served);
+
+
 
 
   /* Halt the program before exiting. */
