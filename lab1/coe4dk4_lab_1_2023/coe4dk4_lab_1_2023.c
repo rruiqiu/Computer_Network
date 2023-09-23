@@ -58,11 +58,10 @@ int main()
   int seed = RANDOM_SEED;
   //random seed
   // srand(seed);
-  srand(time(NULL));
-  double var = 1.1;
-  // double random_arrival_rate = (var * (double)(rand())/RAND_MAX);
-
-  double random_arrival_rate = 0.08;
+  // srand(time(NULL));
+  double var = 0.02;
+  
+  // double random_arrival_rate = 0.08;
   double clock = 0; /* Clock keeps track of simulation time. */
 
   /* System state variables. */
@@ -81,9 +80,18 @@ int main()
   /* Set the seed of the random number generator. */
   random_generator_initialize(RANDOM_SEED);
 
+  // srand(RANDOM_SEED);
+  // double random_arrival_rate = (var*(double)(rand())/RAND_MAX);
+  double random_arrival_rate = 0.012357;
+  printf("%f\n",random_arrival_rate);
+
+
+  // double service_rate= exponential_generator((double)SERVICE_TIME);
+  // printf("%f\n",service_rate);
   /* Process customers until we are finished. */
   while (total_served < NUMBER_TO_SERVE) {
       /* Test if the next event is a customer arrival or departure. */
+
     if(number_in_system == 0 || next_arrival_time < next_departure_time) {
       /*
         * A new arrival is occurring.
@@ -97,7 +105,7 @@ int main()
       total_arrived++;
       /* If this customer has arrived to an empty system, start its
     service right away. */
-      if(number_in_system == 1) next_departure_time = clock + SERVICE_TIME;
+      if(number_in_system == 1) next_departure_time = clock + exponential_generator((double)SERVICE_TIME);
     } else {
       /*
         * A customer departure is occuring. 
@@ -108,13 +116,13 @@ int main()
       last_event_time = clock;
       number_in_system--;
       total_served++;
-      total_busy_time += SERVICE_TIME;
+      total_busy_time += exponential_generator((double)SERVICE_TIME);
       /* 
         * If there are other customers waiting, start one in service
         * right away.
         */
 
-      if(number_in_system > 0) next_departure_time = clock + SERVICE_TIME;
+      if(number_in_system > 0) next_departure_time = clock + exponential_generator((double)SERVICE_TIME);
       /* 
         * Every so often, print an activity message to show we are active. 
         */
