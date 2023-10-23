@@ -6,7 +6,8 @@
     "*.cjson": "jsonc",
     "*.wxss": "css",
     "*.wxs": "javascript",
-    "time.h": "c"
+    "time.h": "c",
+    "cleanup_memory.h": "c"
   },
   "cmake.configureOnOpen": false
 }
