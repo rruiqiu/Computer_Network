@@ -56,6 +56,9 @@ int main(void)
   Simulation_Run_Ptr simulation_run;
   Simulation_Run_Data data;
 
+
+  // Simulation_Run_Ptr_2 simulation_run;
+  // Simulation_Run_Data_2 data;
   /*
    * Declare and initialize our random number generator seeds defined in
    * simparameters.h
@@ -107,8 +110,7 @@ int main(void)
      * Schedule the initial packet arrival for the current clock time (= 0).
      */
 
-    schedule_packet_arrival_event(simulation_run, 
-				  simulation_run_get_time(simulation_run));
+    schedule_packet_arrival_event(simulation_run,simulation_run_get_time(simulation_run));
 
     /* 
      * Execute events until we are finished. 

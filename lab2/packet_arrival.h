@@ -44,6 +44,26 @@ schedule_packet_arrival_event(Simulation_Run_Ptr, double);
 
 /******************************************************************************/
 
+void
+packet_arrival_to_S1_event(Simulation_Run_Ptr, void*);
+
+long
+schedule_packet_arrival_to_S1_event(Simulation_Run_Ptr, double);
+
+
+void
+packet_arrival_to_S2_event(Simulation_Run_Ptr, void*);
+
+long
+schedule_packet_arrival_to_S2_event(Simulation_Run_Ptr, double);
+
+void
+packet_arrival_to_S3_event(Simulation_Run_Ptr, void*);
+
+long
+schedule_packet_arrival_to_S3_event(Simulation_Run_Ptr, double);
+
+
 #endif /* packet_arrival.h */
 
 
