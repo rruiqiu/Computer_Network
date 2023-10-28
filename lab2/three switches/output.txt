@@ -1,0 +1,11 @@
+Mean Delay 1 =  802125.30, Mean Delay 2 (msec) =       1.50,Mean Delay 3 (msec) =  401459.36, The current pb is       0.00
+Mean Delay 1 =  572120.09, Mean Delay 2 (msec) =       1.46,Mean Delay 3 (msec) =  318184.02, The current pb is       0.10
+Mean Delay 1 =  331664.36, Mean Delay 2 (msec) =       1.48,Mean Delay 3 (msec) =  207590.61, The current pb is       0.20
+Mean Delay 1 =   84613.52, Mean Delay 2 (msec) =       1.59,Mean Delay 3 (msec) =   60473.51, The current pb is       0.30
+Mean Delay 1 =       8.13, Mean Delay 2 (msec) =       1.87,Mean Delay 3 (msec) =       5.52, The current pb is       0.40
+Mean Delay 1 =       5.13, Mean Delay 2 (msec) =       2.57,Mean Delay 3 (msec) =       2.56, The current pb is       0.50
+Mean Delay 1 =       8.20, Mean Delay 2 (msec) =       5.58,Mean Delay 3 (msec) =       1.87, The current pb is       0.60
+Mean Delay 1 =   85142.40, Mean Delay 2 (msec) =   60824.43,Mean Delay 3 (msec) =       1.59, The current pb is       0.70
+Mean Delay 1 =  332634.64, Mean Delay 2 (msec) =  207893.68,Mean Delay 3 (msec) =       1.48, The current pb is       0.80
+Mean Delay 1 =  572016.84, Mean Delay 2 (msec) =  317884.16,Mean Delay 3 (msec) =       1.46, The current pb is       0.90
+Mean Delay 1 =  801591.27, Mean Delay 2 (msec) =  400888.47,Mean Delay 3 (msec) =       1.50, The current pb is       1.00
