@@ -99,14 +99,10 @@ end_packet_transmission_event(Simulation_Run_Ptr simulation_run, void * link)
   /* Output activity blip every so often. */
   output_progress_msg_to_screen(simulation_run);
   xfree((void*)this_packet);
-  //schduel another packet transimission event here.
 
-  //this_packet = (Packet_Ptr)server_get(link);
-  //this_packet->status = WAITING;
   if (data->pb > uniform_generator()) {
 	  schedule_packet_arrival_event2_no_reschedule(simulation_run,
 		  simulation_run_get_time(simulation_run));
-
   }
   else {
 	  schedule_packet_arrival_event3_no_reschedule(simulation_run,

@@ -49,12 +49,12 @@ main(void)
 {
   Simulation_Run_Ptr simulation_run;
   Simulation_Run_Data data;
-
+  FILE *fptr;
   /*
    * Declare and initialize our random number generator seeds defined in
    * simparameters.h
    */
-
+  fptr = fopen("output.txt", "w");
   unsigned RANDOM_SEEDS[] = {RANDOM_SEED_LIST, 0};
   unsigned random_seed;
   int j=0;
@@ -65,8 +65,8 @@ main(void)
    */
 
   while ((random_seed = RANDOM_SEEDS[j++]) != 0) {
-
-    simulation_run = simulation_run_new(); /* Create a new simulation run. */
+    for (data.arrival_rate = 0; data.arrival_rate <= 30;data.arrival_rate++){
+      simulation_run = simulation_run_new(); /* Create a new simulation run. */
 
     /*
      * Set the simulation_run data pointer to our data object.
@@ -85,8 +85,8 @@ main(void)
     data.accumulated_delay = 0.0;
     data.accumulated_delay2 = 0.0;
     data.random_seed = random_seed;
- 
-    /* 
+    // data.arrival_rate = 0;
+    /*
      * Create the packet buffer and transmission link, declared in main.h.
      */
 
@@ -122,10 +122,11 @@ main(void)
      * Output results and clean up after ourselves.
      */
 
-    output_results(simulation_run);
+    output_results(simulation_run,fptr);
     cleanup_memory(simulation_run);
   }
-
+  }
+  fclose(fptr);
   getchar();   /* Pause before finishing. */
   return 0;
 }

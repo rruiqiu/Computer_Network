@@ -70,7 +70,7 @@ output_progress_msg_to_screen(Simulation_Run_Ptr simulation_run)
  */
 
 void
-output_results(Simulation_Run_Ptr simulation_run)
+output_results(Simulation_Run_Ptr simulation_run, FILE * writeFile)
 {
   double xmtted_fraction;
   Simulation_Run_Data_Ptr data;
@@ -99,7 +99,8 @@ output_results(Simulation_Run_Ptr simulation_run)
     printf("Mean Delay (msec) = %.2f \n",
 	 1e3*data->accumulated_delay2/data->number_of_packets_processed2);
 
-  printf("\n");
+    fprintf(writeFile, "Arrival rate = %4d , Mean Delay data= %10.2f, Mean Delay Voice= %10.2f,\n",data->arrival_rate,1e3*data->accumulated_delay/data->number_of_packets_processed,1e3*data->accumulated_delay2/data->number_of_packets_processed2);
+    printf("\n");
 }
 
 

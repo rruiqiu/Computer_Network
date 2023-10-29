@@ -38,6 +38,7 @@ typedef struct _simulation_run_data_
   Fifoqueue_Ptr buffer;
   Fifoqueue_Ptr voice_buffer;
   Server_Ptr link;
+  int arrival_rate;
   long int blip_counter;
   long int arrival_count;
   long int number_of_packets_processed;

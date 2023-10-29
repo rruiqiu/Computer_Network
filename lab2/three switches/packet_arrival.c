@@ -194,17 +194,6 @@ packet_arrival_event2_no_reschedule(Simulation_Run_Ptr simulation_run, void* ptr
 	else {
 		start_transmission_on_link2(simulation_run, new_packet, data->link2);
 	}
-
-	/*
-	 * Schedule the next packet arrival. Independent, exponentially distributed
-	 * interarrival times gives us Poisson process arrivals.
-	 */
-	
-	//so i think another way is use the origin and destin address
-
-	//schedule_packet_arrival_event2(simulation_run,
-	//	simulation_run_get_time(simulation_run) +
-	//	exponential_generator((double)1 / data->arrival_rate2));
 }
 
 

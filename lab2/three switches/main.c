@@ -66,7 +66,7 @@ main(void)
    */
 
   while ((random_seed = RANDOM_SEEDS[j++]) != 0) {
-    for(data.pb = 0;data.pb <1;data.pb+= 0.1){
+    for(data.pb = 0;data.pb <1;data.pb+= 0.01){
       simulation_run = simulation_run_new(); /* Create a new simulation run. */
 
       /*
@@ -121,7 +121,6 @@ main(void)
 
       schedule_packet_arrival_event(simulation_run, 
             simulation_run_get_time(simulation_run));
-
 
       schedule_packet_arrival_event2(simulation_run,
           simulation_run_get_time(simulation_run));
