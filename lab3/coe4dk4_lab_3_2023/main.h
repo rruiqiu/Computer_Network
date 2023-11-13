@@ -48,12 +48,15 @@ typedef struct _call_
 
 typedef struct _simulation_run_data_
 {
-  Channel_Ptr * channels;
+  Fifoqueue_Ptr buffer;
+  Channel_Ptr *channels;
+  int call_count;
   long int blip_counter;
   long int call_arrival_count;
   long int calls_processed;
   long int blocked_call_count;
   long int number_of_calls_processed;
+  int number_of_channels;
   double accumulated_call_time;
   unsigned random_seed;
 } Simulation_Run_Data, * Simulation_Run_Data_Ptr;

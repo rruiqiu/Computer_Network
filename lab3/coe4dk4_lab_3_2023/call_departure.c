@@ -62,7 +62,7 @@ schedule_end_call_on_channel_event(Simulation_Run_Ptr simulation_run,
 void
 end_call_on_channel_event(Simulation_Run_Ptr simulation_run, void * c_ptr)
 {
-  Call_Ptr this_call;
+  Call_Ptr this_call,next_call;
   Channel_Ptr channel;
   Simulation_Run_Data_Ptr sim_data;
   double now;
@@ -79,12 +79,30 @@ end_call_on_channel_event(Simulation_Run_Ptr simulation_run, void * c_ptr)
 
   /* Collect statistics. */
   sim_data->number_of_calls_processed++;
-  sim_data->accumulated_call_time += now - this_call->arrive_time;
 
+
+  sim_data->accumulated_call_time += now - this_call->arrive_time;
+  
   output_progress_msg_to_screen(simulation_run);
 
   /* This call is done. Free up its allocated memory.*/
   xfree((void*) this_call);
+
+  if(fifoqueue_size(sim_data->buffer) > 0){
+    next_call = (Call_Ptr)fifoqueue_get(sim_data->buffer);
+
+    if (now - next_call->arrive_time < t_thres)
+    {
+      // printf("the delay is %f\n",now - this_call->arrive_time);
+      sim_data->call_count++;
+    }
+
+    server_put(channel, (void *)next_call);
+    next_call->channel = channel;
+    schedule_end_call_on_channel_event(simulation_run,
+            now + next_call->call_duration,
+            (void *) channel);
+  }
 }
 
 

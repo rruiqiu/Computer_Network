@@ -60,7 +60,7 @@ void output_progress_msg_to_screen(Simulation_Run_Ptr this_simulation_run)
 
 /*******************************************************************************/
 
-void output_results(Simulation_Run_Ptr this_simulation_run)
+void output_results(Simulation_Run_Ptr this_simulation_run,FILE * writefile)
 {
   double xmtted_fraction;
   Simulation_Run_Data_Ptr sim_data;
@@ -79,6 +79,16 @@ void output_results(Simulation_Run_Ptr this_simulation_run)
   printf("Blocking probability = %.5f (Service fraction = %.5f)\n",
 	 1-xmtted_fraction, xmtted_fraction);
 
+  printf("Number of Channel is = %3d \n", sim_data->number_of_channels);
+
+  printf("Accumlated call delay is =%.5f \n", sim_data->accumulated_call_time);
+
+  printf("Call count is =%d \n", sim_data->call_count);
+
+  fprintf(writefile, "The prob is =%.10f \n", (float)sim_data->call_count / (float)sim_data->number_of_calls_processed >= 1.0 ? 1.0:(float)sim_data->call_count / (float)sim_data->number_of_calls_processed);
+
+  printf("The prob is =%.10f \n", (float)sim_data->call_count / (float)sim_data->number_of_calls_processed >= 1.0 ? 1.0:(float)sim_data->call_count / (float)sim_data->number_of_calls_processed);
+  // fprintf(writefile, "Blocking probability = %10.5f, Number of Channel is = %3d \n", 1 - xmtted_fraction, sim_data->number_of_channels);
   printf("\n");
 }
 
