@@ -67,6 +67,7 @@ typedef struct _simulation_run_data_
 {
   Station_Ptr stations;
   Channel_Ptr channel;
+  double packet_arrival_rate;
   long int blip_counter;
   long int arrival_count;
   long int packets_processed;

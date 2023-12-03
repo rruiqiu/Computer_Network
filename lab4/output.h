@@ -40,7 +40,7 @@ void
 output_blip_to_screen(Simulation_Run_Ptr);
 
 void
-output_results(Simulation_Run_Ptr);
+output_results(Simulation_Run_Ptr,FILE *);
 
 /*******************************************************************************/
 

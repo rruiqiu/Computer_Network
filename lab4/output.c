@@ -60,10 +60,12 @@ output_blip_to_screen(Simulation_Run_Ptr simulation_run)
 
 /**********************************************************************/
 
-void output_results(Simulation_Run_Ptr this_simulation_run)
+void output_results(Simulation_Run_Ptr this_simulation_run,FILE * writefile)
 {
   int i;
   double xmtted_fraction;
+  // double mean_delay[10];
+  double sum = 0.0;
   Simulation_Run_Data_Ptr sim_data;
 
   sim_data = (Simulation_Run_Data_Ptr) simulation_run_data(this_simulation_run);
@@ -84,13 +86,18 @@ void output_results(Simulation_Run_Ptr this_simulation_run)
   printf("Mean collisions per packet = %.3f\n",
 	 (double) sim_data->number_of_collisions / 
 	 sim_data->number_of_packets_processed);
-
-  for(i=0; i<NUMBER_OF_STATIONS; i++) {
+  printf("packet arrival rate is =%f \n", sim_data->packet_arrival_rate);
+  for (i = 0; i < NUMBER_OF_STATIONS; i++)
+  {
 
     printf("Station %2i Mean Delay = %8.1f \n", i,
 	   (sim_data->stations+i)->accumulated_delay / 
 	   (sim_data->stations+i)->packet_count);
+    sum += (sim_data->stations + i)->accumulated_delay /
+           (sim_data->stations + i)->packet_count;
   }
+  fprintf(writefile, "the mean dealy is =%8.1f when the arrival rate is =%f \n", sum / 5.0, sim_data->packet_arrival_rate);
+
   printf("\n\n");
 }
 
