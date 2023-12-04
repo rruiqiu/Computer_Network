@@ -1,6 +1,6 @@
 
 /*
- * Simulation of the ALOHA Protocol
+ * Simulation_Run of the ALOHA Protocol
  * 
  * Copyright (C) 2014 Terence D. Todd Hamilton, Ontario, CANADA
  * todd@mcmaster.ca
@@ -22,27 +22,35 @@
 
 /*******************************************************************************/
 
-#ifndef _SIMPARAMETERS_H_
-#define _SIMPARAMETERS_H_
+#include "simlib.h"
+#include "main.h"
+#include "simparameters.h"
+#include "cleanup.h"
 
 /*******************************************************************************/
 
-#define NUMBER_OF_STATIONS 5
-#define MEAN_PACKET_DURATION 1      /* normalized packet Tx time */
-#define PACKET_ARRIVAL_RATE 0.1     /* packets per Tx time */
-#define MEAN_BACKOFF_DURATION 3  /* in units of packet transmit time, Tx */
-#define RUNLENGTH 7000000
-#define BLIPRATE 100000
+void
+cleanup (Simulation_Run_Ptr simulation_run)
+{
+  Simulation_Run_Data_Ptr data;
+  int i;
 
-/* Comma separated list of random seeds to run. */
-#define RANDOM_SEED_LIST 400318681
+  data = (Simulation_Run_Data_Ptr) simulation_run_data(simulation_run);
 
-/*******************************************************************************/
+  /* Clean out the stations. */
+  for(i=0; i<NUMBER_OF_STATIONS; i++) {
+    while (fifoqueue_size((data->stations+i)->buffer) > 0) {
+      xfree(fifoqueue_get((data->stations+i)->buffer));
+    }
+  }
+  xfree(data->stations);
 
-#endif /* simparameters.h */
+  /* Clean out the channel. */
+  xfree(data->channel);
 
-
-
+  /* Clean up the simulation_run. */
+  simulation_run_free_memory(simulation_run);
+}
 
 
 

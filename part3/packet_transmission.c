@@ -164,20 +164,11 @@ transmission_end_event(Simulation_Run_Ptr simulation_run, void * packet)
       set_channel_state(channel, IDLE);
     }
 
-    if(this_packet->station_id == 3){
-      // backoff_duration = uniform_generator() * pow(2,this_packet->collision_count);
+    backoff_duration = uniform_generator() * pow(2,this_packet->collision_count);
 
-      schedule_transmission_start_event(simulation_run,
-                now,
-                (void *) this_packet);
-    }else{
-      backoff_duration = uniform_generator() * pow(2,this_packet->collision_count);
-
-      schedule_transmission_start_event(simulation_run,
-                now + backoff_duration,
-                (void *) this_packet);
-    }
-
+    schedule_transmission_start_event(simulation_run,
+				      now + backoff_duration,
+				      (void *) this_packet);
   }
 
 }

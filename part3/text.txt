@@ -1,0 +1,5 @@
+Station  0 Mean Delay = 13750453.8 
+Station  1 Mean Delay = 13819459.3 
+Station  2 Mean Delay = 13719970.7 
+Station  3 Mean Delay = 13405702.9 
+Station  4 Mean Delay = 13798580.5 
