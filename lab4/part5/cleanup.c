@@ -22,31 +22,35 @@
 
 /*******************************************************************************/
 
-#ifndef _OUTPUT_H_
-#define _OUTPUT_H_
-
-/*******************************************************************************/
-
-#include "trace.h"
+#include "simlib.h"
 #include "main.h"
+#include "simparameters.h"
+#include "cleanup.h"
 
 /*******************************************************************************/
 
-/*
- * Function prototypes
- */
-
 void
-output_blip_to_screen(Simulation_Run_Ptr);
+cleanup (Simulation_Run_Ptr simulation_run)
+{
+  Simulation_Run_Data_Ptr data;
+  int i;
 
-void
-output_results(Simulation_Run_Ptr,FILE *);
+  data = (Simulation_Run_Data_Ptr) simulation_run_data(simulation_run);
 
-/*******************************************************************************/
+  /* Clean out the stations. */
+  for(i=0; i<NUMBER_OF_STATIONS; i++) {
+    while (fifoqueue_size((data->stations+i)->buffer) > 0) {
+      xfree(fifoqueue_get((data->stations+i)->buffer));
+    }
+  }
+  xfree(data->stations);
 
-#endif /* output.h */
+  /* Clean out the channel. */
+  xfree(data->channel);
 
-
+  /* Clean up the simulation_run. */
+  simulation_run_free_memory(simulation_run);
+}
 
 
 

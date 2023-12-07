@@ -25,57 +25,23 @@
 
 /**********************************************************************/
 
-#ifndef _MAIN_H_
-#define _MAIN_H_
+#ifndef _CHANNEL_H_
+#define _CHANNEL_H_
 
 /**********************************************************************/
 
 #include "simlib.h"
 #include "simparameters.h"
-#include "channel.h"
 
 /**********************************************************************/
 
-typedef double Time;
-typedef Fifoqueue_Ptr Buffer_Ptr;
+typedef enum {IDLE, SUCCESS, COLLISION} Channel_State;
 
-/**********************************************************************/
-
-typedef struct _station_
+typedef struct _channel_
 {
-  int id;
-  Buffer_Ptr buffer;
-  long int packet_count;
-  double accumulated_delay;
-  double mean_delay;
-} Station, * Station_Ptr;
-
-/**********************************************************************/
-
-typedef enum {WAITING, TRANSMITTING} Packet_Status;
-
-typedef struct _packet_ 
-{
-  double arrive_time;
-  double service_time;
-  int station_id;
-  Packet_Status status;
-  int collision_count;
-} Packet, * Packet_Ptr;
-
-typedef struct _simulation_run_data_
-{
-  Station_Ptr stations;
-  Channel_Ptr channel;
-  double packet_arrival_rate;
-  long int blip_counter;
-  long int arrival_count;
-  long int packets_processed;
-  long int number_of_packets_processed;
-  long int number_of_collisions;
-  double accumulated_delay;
-  unsigned random_seed;
-} Simulation_Run_Data, * Simulation_Run_Data_Ptr;
+  Channel_State state;
+  int transmitting_stn_count;
+} Channel, * Channel_Ptr;
 
 /**********************************************************************/
 
@@ -83,12 +49,30 @@ typedef struct _simulation_run_data_
  * Function prototypes
  */
 
+Channel_Ptr
+channel_new(void);
+
+Channel_State
+get_channel_state(Channel_Ptr);
+
+void
+set_channel_state(Channel_Ptr, Channel_State);
+
 int
-main(void);
+get_transmitting_stn_count(Channel_Ptr);
+
+void
+increment_transmitting_stn_count(Channel_Ptr);
+
+void
+decrement_transmitting_stn_count(Channel_Ptr);
+
+void
+reset_transmitting_stn_count(Channel_Ptr);
 
 /**********************************************************************/
 
-#endif /* main.h */
+#endif /* channel.h */
 
 
 

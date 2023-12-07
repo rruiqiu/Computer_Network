@@ -53,14 +53,18 @@ main(void)
   unsigned RANDOM_SEEDS[] = {RANDOM_SEED_LIST, 0};
 
   Simulation_Run_Ptr simulation_run;
-  Simulation_Run_Data data;
+  Simulation_Run_Data data = {.Mean_Delay = {0}};
 
   fptr = fopen("output.txt", "w");
   int i, j = 0;
+  // double mean_delay[25] ={0};
+  double S[25] = {0};
   signal(SIGINT, handleInterrupt);
   /* Do a new simulation_run for each random number generator seed. */
   while ((random_seed = RANDOM_SEEDS[j++]) != 0) {
-    for (data.packet_arrival_rate = 0.02; data.packet_arrival_rate <= 0.50;data.packet_arrival_rate+=0.02){
+    int index = 0;
+    for (data.packet_arrival_rate = 0.02; data.packet_arrival_rate <= 0.51; data.packet_arrival_rate += 0.02)
+    {
       /* Set the random generator seed. */
       random_generator_initialize(random_seed);
 
@@ -106,16 +110,28 @@ main(void)
       }
 
       /* Print out some results. */
-      output_results(simulation_run,fptr);
-
+      output_results(simulation_run,fptr,index);
+      printf("numof packet is = %10ld, the S is = %f \n",data.number_of_packets_processed, data.number_of_packets_processed / simulation_run->clock->time);
+      S[index] += data.number_of_packets_processed / simulation_run->clock->time;
+      // fprintf(fptr,"numof packet is = %10ld, the S is = %f \n",data.number_of_packets_processed, data.number_of_packets_processed / simulation_run->clock->time);
       /* Clean up memory. */
       cleanup(simulation_run);
+      fprintf(fptr, "The Mean Delay is = %10.3f  , the throughput is = %10.3f\n", data.Mean_Delay[index]/LENGTH, S[index]/LENGTH);
+      printf("The Mean Delay is = %10.3f  , the throughput is = %10.3f \n", data.Mean_Delay[index] / LENGTH, S[index] / LENGTH);
+      index++;
     }
+    // fprintf(fptr,"The random seed is = %d \n", random_seed);
+
+  }
+
+  for (int i = 0; i < 25;i++){
+    fprintf(fptr, "The Mean Delay is = %10.3f  , the throughput is = %10.3f\n", data.Mean_Delay[i]/LENGTH, S[i]/LENGTH);
+    printf("The Mean Delay is = %10.3f  , the throughput is = %10.3f \n", data.Mean_Delay[i] / LENGTH, S[i] / LENGTH);
   }
   fclose(fptr);
   /* Pause before finishing. */
   // getchar();
-
+                                                                                                                                                                       
   return 0;
 }
 

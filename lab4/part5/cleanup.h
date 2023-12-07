@@ -1,6 +1,6 @@
 
 /*
- * Simulation of the ALOHA Protocol
+ * Simulation_Run of A Single Server Queueing System
  * 
  * Copyright (C) 2014 Terence D. Todd Hamilton, Ontario, CANADA
  * todd@mcmaster.ca
@@ -20,28 +20,23 @@
  * 
  */
 
-/*******************************************************************************/
+/**********************************************************************/
 
-#ifndef _SIMPARAMETERS_H_
-#define _SIMPARAMETERS_H_
+#ifndef _CLEANUP_H_
+#define _CLEANUP_H_
 
-/*******************************************************************************/
+/**********************************************************************/
 
-#define NUMBER_OF_STATIONS 10
-#define MEAN_PACKET_DURATION 1      /* normalized packet Tx time */
-#define PACKET_ARRIVAL_RATE 0.1     /* packets per Tx time */
-#define MEAN_BACKOFF_DURATION 7/* in units of packet transmit time, Tx */
-#define RUNLENGTH 5000000
-#define BLIPRATE 100000
+/*
+ * Function prototypes
+ */
 
-/* Comma separated list of random seeds to run. */
-#define RANDOM_SEED_LIST 400318681
+void
+cleanup(Simulation_Run *);
 
-/*******************************************************************************/
+/**********************************************************************/
 
-#endif /* simparameters.h */
-
-
+#endif /* cleanup.h */
 
 
 
